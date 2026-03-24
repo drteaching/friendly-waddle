@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aspire-endo-ingress
+  namespace: aspire-endo
+  labels:
+    app.kubernetes.io/part-of: aspire-endoexpertise
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - endoexpertise.aspire.org
+        - api.endoexpertise.aspire.org
+      secretName: aspire-endo-tls
+  rules:
+    - host: endoexpertise.aspire.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aspire-endo-frontend
+                port:
+                  number: 80
+    - host: api.endoexpertise.aspire.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aspire-endo-backend
+                port:
+                  number: 80
