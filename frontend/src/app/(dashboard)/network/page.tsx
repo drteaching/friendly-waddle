@@ -48,7 +48,7 @@ export default function NetworkPage() {
       </div>
 
       {/* Search */}
-      <div className="flex items-centre gap-4">
+      <div className="flex items-center gap-4">
         <Input
           placeholder="Search by name, clinic, or location..."
           className="max-w-md"
@@ -57,9 +57,9 @@ export default function NetworkPage() {
 
       {/* Map placeholder */}
       <Card>
-        <CardContent className="flex items-centre justify-centre p-12">
-          <div className="text-centre text-gray-400">
-            <div className="mx-auto mb-3 flex h-16 w-16 items-centre justify-centre rounded-full bg-gray-100">
+        <CardContent className="flex items-center justify-center p-12">
+          <div className="text-center text-gray-400">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
               <svg
                 className="h-8 w-8"
                 fill="none"
@@ -98,10 +98,10 @@ export default function NetworkPage() {
             {mockProviders.map((provider) => (
               <div
                 key={provider.name}
-                className="flex items-start justify-between gap-4 rounded-lg border p-4 hover:bg-gray-50 transition-colours"
+                className="flex items-start justify-between gap-4 rounded-lg border p-4 hover:bg-gray-50 transition-colors"
               >
                 <div className="flex-1">
-                  <div className="flex items-centre gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-medium text-gray-900">
                       {provider.name}
                     </h3>

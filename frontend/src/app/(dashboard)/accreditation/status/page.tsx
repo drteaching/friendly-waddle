@@ -33,7 +33,7 @@ export default function AccreditationStatusPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Application Status</h1>
         <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
       </div>

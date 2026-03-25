@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export function Header({ onMenuToggle }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-centre border-b bg-white px-4 shadow-sm md:px-6">
+    <header className="sticky top-0 z-40 flex h-16 items-center border-b bg-white px-4 shadow-sm md:px-6">
       {/* Mobile menu toggle */}
       <Button
         variant="ghost"
@@ -22,7 +22,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
       </Button>
 
       {/* Search */}
-      <div className="ml-4 flex flex-1 items-centre">
+      <div className="ml-4 flex flex-1 items-center">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
@@ -34,7 +34,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
       </div>
 
       {/* Actions */}
-      <div className="flex items-centre gap-2">
+      <div className="flex items-center gap-2">
         <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-5 w-5 text-gray-500" />
         </Button>

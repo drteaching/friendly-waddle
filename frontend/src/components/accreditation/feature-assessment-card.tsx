@@ -56,7 +56,7 @@ export function FeatureAssessmentCard({
       <CardContent className="p-4 space-y-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <div className="flex items-centre gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-semibold text-gray-700">
                 Feature {featureId}
               </span>

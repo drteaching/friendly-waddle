@@ -63,7 +63,7 @@ export default function PassportPage() {
 
         {/* Consent summary */}
         <Card>
-          <CardHeader className="flex flex-row items-centre justify-between">
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base">Data Sharing Consents</CardTitle>
             <Link
               href="/passport/consents"
@@ -73,8 +73,8 @@ export default function PassportPage() {
             </Link>
           </CardHeader>
           <CardContent>
-            <div className="flex items-centre gap-3">
-              <div className="flex h-14 w-14 items-centre justify-centre rounded-full bg-teal-100">
+            <div className="flex items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-100">
                 <span className="text-lg font-bold text-teal-700">
                   {p.consentsGranted}/{p.consentsTotal}
                 </span>
@@ -91,7 +91,7 @@ export default function PassportPage() {
 
       {/* Recent journey events */}
       <Card>
-        <CardHeader className="flex flex-row items-centre justify-between">
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">Recent Journey Events</CardTitle>
           <Link
             href="/passport/timeline"
@@ -105,7 +105,7 @@ export default function PassportPage() {
             {p.recentEvents.map((evt) => (
               <div
                 key={evt.date}
-                className="flex items-centre justify-between rounded-md border px-4 py-3"
+                className="flex items-center justify-between rounded-md border px-4 py-3"
               >
                 <span className="text-sm font-medium text-gray-900">
                   {evt.title}

@@ -12,7 +12,7 @@ export function AccreditationBadge({ tier, expiresAt }: AccreditationBadgeProps)
   };
 
   return (
-    <div className={`inline-flex items-centre px-3 py-1 rounded-full text-sm font-medium ${tierColours[tier] || 'bg-gray-100 text-gray-800'}`}>
+    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${tierColours[tier] || 'bg-gray-100 text-gray-800'}`}>
       <span>{tier}</span>
       <span className="ml-2 text-xs opacity-75">Expires {expiresAt}</span>
     </div>

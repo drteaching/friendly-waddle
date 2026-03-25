@@ -45,7 +45,7 @@ export function TierBadge({ tier, expiresAt, size = 'sm' }: TierBadgeProps) {
     return (
       <div
         className={cn(
-          'inline-flex items-centre gap-3 rounded-lg px-5 py-3',
+          'inline-flex items-center gap-3 rounded-lg px-5 py-3',
           styles.bg,
         )}
       >
@@ -63,7 +63,7 @@ export function TierBadge({ tier, expiresAt, size = 'sm' }: TierBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-centre gap-1.5 rounded-full px-3 py-1 text-xs font-semibold',
+        'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold',
         styles.bg,
         styles.text,
       )}

@@ -24,7 +24,7 @@ export function AccreditationWizard() {
           <button
             key={domain.key}
             onClick={() => setCurrentDomain(index)}
-            className={`flex-1 h-2 rounded-full transition-colours ${
+            className={`flex-1 h-2 rounded-full transition-colors ${
               index <= currentDomain ? 'bg-teal-600' : 'bg-gray-200'
             }`}
             aria-label={domain.label}

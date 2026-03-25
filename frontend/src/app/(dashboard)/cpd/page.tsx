@@ -68,7 +68,7 @@ export default function CpdPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">CPD Tracker</h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -82,7 +82,7 @@ export default function CpdPage() {
       {/* Summary card */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-centre justify-between mb-3">
+          <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm text-gray-500">Current Cycle Progress</p>
               <p className="text-2xl font-bold text-gray-900">

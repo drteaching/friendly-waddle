@@ -37,7 +37,7 @@ export function ConsentToggle({
   };
 
   return (
-    <div className="flex items-start gap-4 rounded-lg border p-4 transition-colours hover:bg-gray-50">
+    <div className="flex items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-gray-50">
       <div className="flex-1">
         <p className="text-sm font-medium text-gray-900">{label}</p>
         <p className="mt-1 text-xs text-gray-500">{description}</p>
@@ -51,7 +51,7 @@ export function ConsentToggle({
         aria-label={`${granted ? 'Revoke' : 'Grant'} consent for ${label}`}
         onClick={handleToggle}
         className={cn(
-          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colours focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2',
+          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2',
           granted ? 'bg-teal-600' : 'bg-gray-200',
         )}
       >
