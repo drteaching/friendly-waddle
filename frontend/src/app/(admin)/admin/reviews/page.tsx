@@ -45,7 +45,7 @@ const statusColours: Record<string, string> = {
 export default function AdminReviewsPage() {
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             Accreditation Review Queue

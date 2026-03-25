@@ -21,7 +21,7 @@ export default function AdminLayout({
     <div className="flex h-screen">
       {/* Admin sidebar */}
       <aside className="hidden md:flex md:w-60 md:flex-col border-r bg-gray-900 text-white">
-        <div className="flex items-centre gap-2 px-4 py-5">
+        <div className="flex items-center gap-2 px-4 py-5">
           <Shield className="h-5 w-5 text-coral-400" />
           <span className="text-lg font-bold">ASPIRE Admin</span>
         </div>
@@ -32,7 +32,7 @@ export default function AdminLayout({
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-centre gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colours ${
+                className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-gray-800 text-white'
                     : 'text-gray-400 hover:bg-gray-800 hover:text-white'
@@ -47,7 +47,7 @@ export default function AdminLayout({
         <div className="border-t border-gray-700 px-4 py-3">
           <Link
             href="/dashboard"
-            className="text-xs text-gray-500 hover:text-gray-300 transition-colours"
+            className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
           >
             &larr; Back to Dashboard
           </Link>

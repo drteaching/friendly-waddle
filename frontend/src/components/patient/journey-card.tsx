@@ -65,7 +65,7 @@ export function JourneyCard({
       {/* Icon */}
       <div
         className={cn(
-          'flex h-10 w-10 shrink-0 items-centre justify-centre rounded-full',
+          'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
           eventColours[type],
         )}
       >
@@ -74,7 +74,7 @@ export function JourneyCard({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-centre justify-between gap-2">
+        <div className="flex items-center justify-between gap-2">
           <h4 className="text-sm font-medium text-gray-900 truncate">
             {title}
           </h4>

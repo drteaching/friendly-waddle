@@ -38,7 +38,7 @@ const statusColours: Record<string, string> = {
 export default function CaseHubPage() {
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Case Hub</h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -55,7 +55,7 @@ export default function CaseHubPage() {
             <CardContent className="p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-centre gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs font-mono text-gray-400">
                       {discussion.id}
                     </span>
@@ -69,7 +69,7 @@ export default function CaseHubPage() {
                   <h3 className="text-sm font-medium text-gray-900 truncate">
                     {discussion.title}
                   </h3>
-                  <div className="mt-2 flex items-centre gap-4 text-xs text-gray-500">
+                  <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
                     <span>Patient: {discussion.patientRef}</span>
                     <span>{discussion.participants} participants</span>
                     <span>Last activity: {discussion.lastActivity}</span>

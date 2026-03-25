@@ -42,11 +42,11 @@ const statusColours: Record<string, string> = {
 export default function SurgicalCasesPage() {
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Surgical Cases</h1>
         <Link
           href="/surgical-cases/new"
-          className="inline-flex items-centre rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 transition-colours"
+          className="inline-flex items-center rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 transition-colors"
         >
           Log New Case
         </Link>

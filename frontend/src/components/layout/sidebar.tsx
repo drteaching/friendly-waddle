@@ -33,7 +33,7 @@ export function Sidebar() {
   const navContent = (
     <>
       {/* Branding */}
-      <div className="flex items-centre shrink-0 px-4 py-5">
+      <div className="flex items-center shrink-0 px-4 py-5">
         <span className="text-xl font-bold text-teal-700">ASPIRE</span>
         <span className="ml-1 text-sm text-gray-500">EndoExpertise</span>
       </div>
@@ -49,7 +49,7 @@ export function Sidebar() {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                'group flex items-centre gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colours',
+                'group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 isActive
                   ? 'bg-teal-50 text-teal-700'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
@@ -71,14 +71,14 @@ export function Sidebar() {
       <div className="border-t px-2 py-3 space-y-1">
         <Link
           href="/admin/reviews"
-          className="flex items-centre gap-3 rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colours"
+          className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
         >
           <Shield className="h-4 w-4" />
           Admin
         </Link>
         <a
           href="/api/auth/logout"
-          className="flex items-centre gap-3 rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colours"
+          className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
         >
           <LogOut className="h-4 w-4" />
           Sign Out

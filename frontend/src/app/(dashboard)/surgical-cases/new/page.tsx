@@ -23,18 +23,18 @@ export default function NewSurgicalCasePage() {
       <h1 className="text-2xl font-bold text-gray-900">Log New Surgical Case</h1>
 
       {/* Step indicator */}
-      <div className="flex items-centre gap-2 text-sm">
+      <div className="flex items-center gap-2 text-sm">
         {(['details', 'enzian', 'review'] as const).map((s, i) => (
           <button
             key={s}
             onClick={() => setStep(s)}
-            className={`flex items-centre gap-1.5 rounded-full px-3 py-1 font-medium transition-colours ${
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium transition-colors ${
               step === s
                 ? 'bg-teal-100 text-teal-800'
                 : 'text-gray-400 hover:text-gray-600'
             }`}
           >
-            <span className="flex h-5 w-5 items-centre justify-centre rounded-full bg-current text-white text-xs">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-current text-white text-xs">
               {i + 1}
             </span>
             <span className={step === s ? 'text-teal-800' : ''}>

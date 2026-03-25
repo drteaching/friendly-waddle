@@ -8,7 +8,7 @@ import { RecentCases } from '@/components/dashboard/recent-cases';
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Provider Dashboard</h1>
         <AccreditationBadge tier="EndoAdvanced" expiresAt="2028-12-15" />
       </div>

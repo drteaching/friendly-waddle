@@ -15,7 +15,7 @@ export function QuickActions() {
           <Link
             key={action.label}
             href={action.href}
-            className="block w-full text-left px-4 py-2 text-sm rounded-md border border-gray-200 hover:bg-teal-50 hover:border-teal-200 transition-colours"
+            className="block w-full text-left px-4 py-2 text-sm rounded-md border border-gray-200 hover:bg-teal-50 hover:border-teal-200 transition-colors"
           >
             {action.label}
           </Link>
