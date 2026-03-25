@@ -1,0 +1,99 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci-check:
+    name: Wait for CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for CI workflow to pass
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.sha }}
+          check-name: "Build Docker Images"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 15
+
+  build-and-push:
+    name: Build and Push to ACR
+    runs-on: ubuntu-latest
+    needs: ci-check
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push backend image
+        run: |
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-backend:${{ github.sha }} \
+            -t ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-backend:latest \
+            --target production \
+            ./backend
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-backend:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-backend:latest
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-frontend:${{ github.sha }} \
+            -t ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-frontend:latest \
+            --target production \
+            ./frontend
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-frontend:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-frontend:latest
+
+  deploy:
+    name: Deploy to AKS
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS context
+        uses: azure/aks-set-context@v4
+        with:
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      - name: Deploy namespace and config
+        run: |
+          kubectl apply -f infrastructure/k8s/namespace.yaml
+          kubectl apply -f infrastructure/k8s/configmap.yaml
+
+      - name: Update backend image tag
+        run: |
+          kubectl set image deployment/aspire-endo-backend \
+            backend=${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-backend:${{ github.sha }} \
+            -n aspire-endo
+
+      - name: Update frontend image tag
+        run: |
+          kubectl set image deployment/aspire-endo-frontend \
+            frontend=${{ secrets.ACR_LOGIN_SERVER }}/aspire-endo-frontend:${{ github.sha }} \
+            -n aspire-endo
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f infrastructure/k8s/backend-deployment.yaml
+          kubectl apply -f infrastructure/k8s/backend-service.yaml
+          kubectl apply -f infrastructure/k8s/frontend-deployment.yaml
+          kubectl apply -f infrastructure/k8s/frontend-service.yaml
+          kubectl apply -f infrastructure/k8s/ingress.yaml
+
+      - name: Verify deployment rollout
+        run: |
+          kubectl rollout status deployment/aspire-endo-backend -n aspire-endo --timeout=300s
+          kubectl rollout status deployment/aspire-endo-frontend -n aspire-endo --timeout=300s

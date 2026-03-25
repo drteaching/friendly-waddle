@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspire-endo-backend
+  namespace: aspire-endo
+  labels:
+    app: aspire-endo-backend
+    app.kubernetes.io/part-of: aspire-endoexpertise
+    app.kubernetes.io/component: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: aspire-endo-backend
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http

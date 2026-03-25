@@ -1,0 +1,13 @@
+{
+  "name": "aspire-endoexpertise-ig",
+  "version": "0.1.0",
+  "description": "ASPIRE EndoExpertise FHIR Implementation Guide",
+  "private": true,
+  "scripts": {
+    "sushi": "sushi .",
+    "build": "sushi ."
+  },
+  "devDependencies": {
+    "fsh-sushi": "^3.12.0"
+  }
+}

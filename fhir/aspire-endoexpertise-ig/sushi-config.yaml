@@ -1,0 +1,32 @@
+id: aspire.endoexpertise
+canonical: https://aspire.org/fhir/endoexpertise
+name: ASPIREEndoExpertise
+title: ASPIRE EndoExpertise Implementation Guide
+description: >-
+  FHIR Implementation Guide for the ASPIRE EndoExpertise Platform, supporting
+  accreditation, surgical registry, and clinical data exchange for endometriosis
+  centres of excellence across Australia and New Zealand.
+status: draft
+version: 0.1.0
+fhirVersion: 4.0.1
+copyrightYear: 2024+
+releaseLabel: ci-build
+publisher:
+  name: ASPIRE EndoExpertise
+  url: https://aspire.org
+jurisdiction: urn:iso:std:iso:3166#AU "Australia"
+
+dependencies:
+  hl7.fhir.au.base: 4.1.0
+  hl7.fhir.au.core: 1.0.0
+
+pages:
+  index.md:
+    title: Home
+
+parameters:
+  show-hierarchies: true
+  apply-publisher: true
+  apply-contact: true
+  apply-jurisdiction: true
+  apply-version: true
