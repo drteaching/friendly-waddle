@@ -65,7 +65,7 @@ async function bootstrap() {
   const port = configService.get<number>('PORT', 3001);
   await app.listen(port);
 
-  // eslint-disable-next-line no-console
+   
   console.log(`ASPIRE EndoExpertise API is running on port ${port}`);
   console.log(`Swagger documentation available at http://localhost:${port}/api/docs`);
 }
