@@ -24,7 +24,7 @@ Extension: AccreditationStatus
 Id: accreditation-status
 Title: "Accreditation Status"
 Description: "The current accreditation status of the endometriosis centre within the ASPIRE network."
-Context: Organization
+Context: Organization, Basic
 * value[x] only code
 * valueCode from AccreditationStatusVS (required)
 
@@ -32,7 +32,7 @@ Extension: AccreditationValidUntil
 Id: accreditation-valid-until
 Title: "Accreditation Valid Until"
 Description: "The date until which the organisation's current accreditation remains valid."
-Context: Organization
+Context: Organization, Basic
 * value[x] only date
 
 Extension: NetworkMembers
