@@ -8,4 +8,5 @@ export * from './cpd';
 export * from './ai-orchestration';
 export * from './video-vault';
 export * from './registry';
-export * from './security';
+export * from './auth';
+export * from './providers';

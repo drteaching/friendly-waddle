@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThanOrEqual } from 'typeorm';
 import { SurgicalCase } from './entities/surgical-case.entity';
 import { PromsResponse } from './entities/proms-response.entity';
+import { CreateCaseDto } from './dto/create-case.dto';
 
 /** Standard PROMS collection intervals in days after the procedure date. */
 const COLLECTION_INTERVALS: Record<string, number> = {
@@ -22,8 +23,11 @@ export class SurgicalCasesService {
   ) {}
 
   /** Record a new surgical case. */
-  async createCase(data: Partial<SurgicalCase>): Promise<SurgicalCase> {
-    const surgicalCase = this.caseRepo.create(data);
+  async createCase(dto: CreateCaseDto): Promise<SurgicalCase> {
+    const surgicalCase = this.caseRepo.create({
+      ...dto,
+      procedureDate: new Date(dto.procedureDate),
+    });
     return this.caseRepo.save(surgicalCase);
   }
 

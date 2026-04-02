@@ -1,51 +1,86 @@
+'use client';
+
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  useAccreditationApplications,
+  type AccreditationApplication,
+} from '@/lib/hooks';
 
-/** Placeholder review queue data — will be fetched from the API. */
-const mockApplications = [
+/** Fallback data shown when the API returns nothing. */
+const mockApplications: AccreditationApplication[] = [
   {
     id: 'APP-2025-0042',
-    provider: 'Dr A. Nguyen',
-    clinic: 'Royal Women\'s Hospital',
-    tier: 'EndoAdvanced',
+    organisationId: 'org-1',
+    targetTier: 'EndoAdvanced',
     submittedAt: '2025-11-20',
     status: 'pending_review',
-    featuresMet: 28,
-    featuresTotal: 38,
+    overallScore: 74,
+    createdAt: '2025-11-20',
   },
   {
     id: 'APP-2025-0039',
-    provider: 'Dr J. Chen',
-    clinic: 'Westmead Endometriosis Centre',
-    tier: 'EndoCentre',
+    organisationId: 'org-2',
+    targetTier: 'EndoCentre',
     submittedAt: '2025-11-15',
     status: 'in_progress',
-    featuresMet: 35,
-    featuresTotal: 38,
+    overallScore: 92,
+    createdAt: '2025-11-15',
   },
   {
     id: 'APP-2025-0035',
-    provider: 'Dr S. Williams',
-    clinic: 'Adelaide Women\'s Health',
-    tier: 'EndoAware',
+    organisationId: 'org-3',
+    targetTier: 'EndoAware',
     submittedAt: '2025-11-08',
     status: 'pending_review',
-    featuresMet: 15,
-    featuresTotal: 20,
+    overallScore: 75,
+    createdAt: '2025-11-08',
   },
 ];
 
 const statusColours: Record<string, string> = {
   pending_review: 'bg-amber-100 text-amber-800',
   in_progress: 'bg-blue-100 text-blue-800',
-  completed: 'bg-green-100 text-green-800',
+  approved: 'bg-green-100 text-green-800',
+  rejected: 'bg-red-100 text-red-800',
 };
 
 export default function AdminReviewsPage() {
+  const { data, loading, error, refetch } = useAccreditationApplications();
+
+  const applications =
+    data && data.length > 0 ? data : mockApplications;
+
+  const pendingCount = applications.filter(
+    (a) => a.status === 'pending_review',
+  ).length;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-sm text-gray-500">Loading applications...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
+        <p className="text-sm text-red-700">
+          Failed to load applications: {error}
+        </p>
+        <Button variant="outline" size="sm" className="mt-3" onClick={refetch}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div className="flex items-centre justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             Accreditation Review Queue
@@ -55,8 +90,7 @@ export default function AdminReviewsPage() {
           </p>
         </div>
         <Badge variant="secondary" className="bg-amber-100 text-amber-800">
-          {mockApplications.filter((a) => a.status === 'pending_review').length}{' '}
-          Awaiting Review
+          {pendingCount} Awaiting Review
         </Badge>
       </div>
 
@@ -70,30 +104,27 @@ export default function AdminReviewsPage() {
               <thead>
                 <tr className="border-b text-left text-gray-500">
                   <th className="pb-2 pr-4 font-medium">Application</th>
-                  <th className="pb-2 pr-4 font-medium">Provider</th>
                   <th className="pb-2 pr-4 font-medium">Target Tier</th>
                   <th className="pb-2 pr-4 font-medium">Submitted</th>
-                  <th className="pb-2 pr-4 font-medium">Features</th>
+                  <th className="pb-2 pr-4 font-medium">Score</th>
                   <th className="pb-2 pr-4 font-medium">Status</th>
                   <th className="pb-2 font-medium">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {mockApplications.map((app) => (
+                {applications.map((app) => (
                   <tr key={app.id} className="hover:bg-gray-50">
                     <td className="py-3 pr-4 font-medium text-teal-700">
                       {app.id}
                     </td>
+                    <td className="py-3 pr-4">{app.targetTier}</td>
                     <td className="py-3 pr-4">
-                      <div>
-                        <p className="font-medium">{app.provider}</p>
-                        <p className="text-xs text-gray-400">{app.clinic}</p>
-                      </div>
+                      {app.submittedAt
+                        ? new Date(app.submittedAt).toLocaleDateString()
+                        : '-'}
                     </td>
-                    <td className="py-3 pr-4">{app.tier}</td>
-                    <td className="py-3 pr-4">{app.submittedAt}</td>
                     <td className="py-3 pr-4">
-                      {app.featuresMet}/{app.featuresTotal}
+                      {app.overallScore != null ? `${app.overallScore}%` : '-'}
                     </td>
                     <td className="py-3 pr-4">
                       <Badge
@@ -104,9 +135,11 @@ export default function AdminReviewsPage() {
                       </Badge>
                     </td>
                     <td className="py-3">
-                      <Button variant="outline" size="sm">
-                        Review
-                      </Button>
+                      <Link href={`/admin/reviews/${app.id}`}>
+                        <Button variant="outline" size="sm">
+                          Review
+                        </Button>
+                      </Link>
                     </td>
                   </tr>
                 ))}

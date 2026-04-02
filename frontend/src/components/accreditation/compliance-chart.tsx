@@ -31,7 +31,7 @@ export function ComplianceChart({
           Feature Compliance
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col items-centre">
+      <CardContent className="flex flex-col items-center">
         <div className="relative h-40 w-40">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -52,7 +52,7 @@ export function ComplianceChart({
             </PieChart>
           </ResponsiveContainer>
           {/* Centre label */}
-          <div className="absolute inset-0 flex items-centre justify-centre">
+          <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-2xl font-bold text-gray-900">
               {percentage}%
             </span>

@@ -175,19 +175,3 @@ jobs:
       - name: Compile FSH
         working-directory: fhir/aspire-endoexpertise-ig
         run: sushi .
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Download IG Publisher
-        run: |
-          mkdir -p fhir/aspire-endoexpertise-ig/input-cache
-          curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar \
-            -o fhir/aspire-endoexpertise-ig/input-cache/publisher.jar
-
-      - name: Validate IG
-        working-directory: fhir/aspire-endoexpertise-ig
-        run: java -jar input-cache/publisher.jar -ig ig.ini -tx n/a

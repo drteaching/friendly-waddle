@@ -6,7 +6,7 @@ export function ComplianceChart({ percentage }: ComplianceChartProps) {
   return (
     <div className="bg-white rounded-lg border p-6 shadow-sm">
       <h3 className="text-sm font-medium text-gray-500 mb-4">Feature Compliance</h3>
-      <div className="flex items-centre justify-centre">
+      <div className="flex items-center justify-center">
         <div className="relative w-32 h-32">
           <svg className="w-full h-full" viewBox="0 0 36 36">
             <path
@@ -29,7 +29,7 @@ export function ComplianceChart({ percentage }: ComplianceChartProps) {
           </svg>
         </div>
       </div>
-      <p className="text-centre text-sm text-gray-500 mt-2">
+      <p className="text-center text-sm text-gray-500 mt-2">
         of applicable features met
       </p>
     </div>

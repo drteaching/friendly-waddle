@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { Patient } from './entities/patient.entity';
 import { PatientConsent } from './entities/patient-consent.entity';
 
@@ -99,7 +100,7 @@ export class PatientPassportService {
     const journeyTimeline = patient.journeyTimeline || [];
     journeyTimeline.push({
       ...entry,
-      id: require('uuid').v4(),
+      id: uuidv4(),
       createdAt: new Date().toISOString(),
     });
     patient.journeyTimeline = journeyTimeline;

@@ -16,10 +16,6 @@ publisher:
   url: https://aspire.org
 jurisdiction: urn:iso:std:iso:3166#AU "Australia"
 
-dependencies:
-  hl7.fhir.au.base: 4.1.0
-  hl7.fhir.au.core: 1.0.0
-
 pages:
   index.md:
     title: Home

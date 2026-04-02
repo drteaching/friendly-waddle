@@ -37,7 +37,7 @@ export function GentleNudge({
           {actionHref && (
             <Link
               href={actionHref}
-              className="mt-2 inline-flex items-centre gap-1 text-xs font-medium text-coral-600 hover:text-coral-800 transition-colours"
+              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-coral-600 hover:text-coral-800 transition-colors"
             >
               {actionLabel}
               <ArrowRight className="h-3 w-3" />
