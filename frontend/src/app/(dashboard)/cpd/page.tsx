@@ -64,11 +64,17 @@ const mockActivities = [
   },
 ];
 
-const CATEGORIES = [
-  'Educational Activity',
-  'Practice Review',
-  'Measuring Outcomes',
-  'Self-Directed Learning',
+const ACTIVITY_TYPES = [
+  { value: 'workshop', label: 'Workshop' },
+  { value: 'conference', label: 'Conference' },
+  { value: 'online_course', label: 'Online Course' },
+  { value: 'case_review', label: 'Case Review' },
+  { value: 'video_review', label: 'Video Review' },
+  { value: 'audit', label: 'Audit' },
+  { value: 'teaching', label: 'Teaching' },
+  { value: 'self_directed', label: 'Self-Directed Learning' },
+  { value: 'research', label: 'Research' },
+  { value: 'other', label: 'Other' },
 ] as const;
 
 const REQUIRED_HOURS = 60;
@@ -82,13 +88,25 @@ export default function CpdPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [form, setForm] = useState({
     title: '',
-    category: CATEGORIES[0] as string,
+    activityType: 'workshop' as string,
     hours: '',
     activityDate: '',
   });
 
   // Use API data when available, fall back to mock data
-  const activities = apiActivities && apiActivities.length > 0 ? apiActivities : mockActivities;
+  type DisplayActivity = { id: string; title: string; category: string; hours: number; activityDate: string; ranzcogMapped: boolean; status: string };
+
+  const activities: DisplayActivity[] = apiActivities && apiActivities.length > 0
+    ? apiActivities.map(a => ({
+        id: a.id,
+        title: a.title,
+        category: a.activityType?.replace(/_/g, ' ') || '—',
+        hours: Number(a.cpdHours) || 0,
+        activityDate: a.activityDate,
+        ranzcogMapped: !!a.ranzcogCategory,
+        status: a.status,
+      }))
+    : mockActivities;
 
   const earned = activities.reduce((sum, a) => sum + a.hours, 0);
   const percentage = Math.round((earned / REQUIRED_HOURS) * 100);
@@ -106,12 +124,14 @@ export default function CpdPage() {
     try {
       await createCpdActivity({
         title: form.title.trim(),
-        category: form.category,
-        hours: Number(form.hours),
+        activityType: form.activityType,
+        cpdHours: Number(form.hours),
         activityDate: form.activityDate,
+        practitionerId: '550e8400-e29b-41d4-a716-446655440001',
+        organisationId: '550e8400-e29b-41d4-a716-446655440000',
       });
       setModalOpen(false);
-      setForm({ title: '', category: CATEGORIES[0], hours: '', activityDate: '' });
+      setForm({ title: '', activityType: 'workshop', hours: '', activityDate: '' });
       refetch();
     } catch (err) {
       setFormError(err instanceof Error ? err.message : 'Failed to create activity');
@@ -192,11 +212,7 @@ export default function CpdPage() {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {activities.map((activity) => {
-                  const ranzcogMapped = 'ranzcogMapped' in activity
-                    ? (activity as { ranzcogMapped: boolean }).ranzcogMapped
-                    : !!activity.ranzcogCategory;
-                  return (
+                {activities.map((activity) => (
                     <tr key={activity.id} className="hover:bg-gray-50">
                       <td className="py-3 pr-4 font-medium text-gray-900">
                         {activity.title}
@@ -210,17 +226,16 @@ export default function CpdPage() {
                         <Badge
                           variant="secondary"
                           className={
-                            ranzcogMapped
+                            activity.ranzcogMapped
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-500'
                           }
                         >
-                          {ranzcogMapped ? 'Mapped' : 'Pending'}
+                          {activity.ranzcogMapped ? 'Mapped' : 'Pending'}
                         </Badge>
                       </td>
                     </tr>
-                  );
-                })}
+                ))}
               </tbody>
             </table>
           </div>
@@ -258,15 +273,15 @@ export default function CpdPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity Type</label>
                 <select
-                  value={form.category}
-                  onChange={(e) => setForm({ ...form, category: e.target.value })}
+                  value={form.activityType}
+                  onChange={(e) => setForm({ ...form, activityType: e.target.value })}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none"
                 >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
+                  {ACTIVITY_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
                     </option>
                   ))}
                 </select>

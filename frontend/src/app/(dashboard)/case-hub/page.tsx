@@ -73,8 +73,10 @@ export default function CaseHubPage() {
     try {
       await createCaseDiscussion({
         title: title.trim(),
+        organisationId: '550e8400-e29b-41d4-a716-446655440000',
+        createdBy: '550e8400-e29b-41d4-a716-446655440001',
         ...(patientReference.trim()
-          ? { patientReference: patientReference.trim() }
+          ? { description: `Patient: ${patientReference.trim()}` }
           : {}),
       });
       setTitle('');

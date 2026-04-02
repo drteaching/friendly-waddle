@@ -120,9 +120,12 @@ export interface CaseDiscussion {
 export interface CpdActivity {
   id: string;
   practitionerId: string;
+  organisationId: string;
   title: string;
   description?: string;
+  activityType: string;
   category: string;
+  cpdHours: number;
   hours: number;
   activityDate: string;
   ranzcogCategory?: string;
