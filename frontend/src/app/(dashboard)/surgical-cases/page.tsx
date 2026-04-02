@@ -1,8 +1,12 @@
+'use client';
+
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useSurgicalCases, SurgicalCase } from '@/lib/hooks';
 
-/** Placeholder surgical case data — will be fetched from the API. */
+/** Placeholder surgical case data — used as fallback when no cases are returned. */
 const mockCases = [
   {
     id: 'SC-2025-0108',
@@ -39,7 +43,58 @@ const statusColours: Record<string, string> = {
   draft: 'bg-gray-100 text-gray-800',
 };
 
+function formatDate(dateStr: string): string {
+  try {
+    return new Date(dateStr).toLocaleDateString('en-AU', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function formatEnzianScore(score: Record<string, number> | null | undefined): string {
+  if (!score) return '\u2014';
+  const keys = ['P', 'O', 'T', 'A', 'B', 'C', 'FA', 'FB', 'FI', 'FU', 'FO'];
+  const parts = keys
+    .filter((k) => k in score)
+    .map((k) => `${k}${score[k]}`);
+  return parts.length > 0 ? parts.join(' ') : '\u2014';
+}
+
+interface DisplayCase {
+  id: string;
+  date: string;
+  procedure: string;
+  enzianScore: string;
+  status: string;
+}
+
 export default function SurgicalCasesPage() {
+  const { data, loading, error } = useSurgicalCases();
+
+  const cases: DisplayCase[] = useMemo(() => {
+    if (data && data.length > 0) {
+      return data.map((c: SurgicalCase) => ({
+        id: c.id,
+        date: formatDate(c.procedureDate),
+        procedure: c.procedureDescription || c.procedureType,
+        enzianScore: formatEnzianScore(c.enzianScore),
+        status: c.status,
+      }));
+    }
+    // Fallback to mock data
+    return mockCases.map((c) => ({
+      id: c.id,
+      date: formatDate(c.date),
+      procedure: c.procedure,
+      enzianScore: c.enzianScore,
+      status: c.status,
+    }));
+  }, [data]);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -52,46 +107,58 @@ export default function SurgicalCasesPage() {
         </Link>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Case Log</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b text-left text-gray-500">
-                  <th className="pb-2 pr-4 font-medium">Case ID</th>
-                  <th className="pb-2 pr-4 font-medium">Date</th>
-                  <th className="pb-2 pr-4 font-medium">Procedure</th>
-                  <th className="pb-2 pr-4 font-medium">#Enzian</th>
-                  <th className="pb-2 pr-4 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {mockCases.map((c) => (
-                  <tr key={c.id} className="hover:bg-gray-50">
-                    <td className="py-3 pr-4 font-medium text-teal-700">
-                      <Link href={`/surgical-cases/${c.id}`}>{c.id}</Link>
-                    </td>
-                    <td className="py-3 pr-4">{c.date}</td>
-                    <td className="py-3 pr-4 max-w-xs truncate">{c.procedure}</td>
-                    <td className="py-3 pr-4 font-mono text-xs">{c.enzianScore}</td>
-                    <td className="py-3 pr-4">
-                      <Badge
-                        variant="secondary"
-                        className={statusColours[c.status] ?? ''}
-                      >
-                        {c.status.replace('_', ' ')}
-                      </Badge>
-                    </td>
+      {error && (
+        <div className="rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+          Failed to load surgical cases: {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-200 border-t-teal-600" />
+        </div>
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Case Log</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-left text-gray-500">
+                    <th className="pb-2 pr-4 font-medium">Case ID</th>
+                    <th className="pb-2 pr-4 font-medium">Date</th>
+                    <th className="pb-2 pr-4 font-medium">Procedure</th>
+                    <th className="pb-2 pr-4 font-medium">#Enzian</th>
+                    <th className="pb-2 pr-4 font-medium">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+                </thead>
+                <tbody className="divide-y">
+                  {cases.map((c) => (
+                    <tr key={c.id} className="hover:bg-gray-50">
+                      <td className="py-3 pr-4 font-medium text-teal-700">
+                        <Link href={`/surgical-cases/${c.id}`}>{c.id}</Link>
+                      </td>
+                      <td className="py-3 pr-4">{c.date}</td>
+                      <td className="py-3 pr-4 max-w-xs truncate">{c.procedure}</td>
+                      <td className="py-3 pr-4 font-mono text-xs">{c.enzianScore}</td>
+                      <td className="py-3 pr-4">
+                        <Badge
+                          variant="secondary"
+                          className={statusColours[c.status] ?? ''}
+                        >
+                          {c.status.replace('_', ' ')}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
